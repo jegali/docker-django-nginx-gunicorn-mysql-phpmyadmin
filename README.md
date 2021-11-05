@@ -154,3 +154,28 @@ django:
         depends_on:
             - database
 ```
+
+Of course, we'll take a look at the Dockerfile as well. The content is docker typical. First, a base image is loaded from Dockerhub based on the python:3.9 image. Within this image, some updates and basic installation are done before the working directory of the Django project is mounted. Note: At this point, the working directory should be set via an environment variable and queried in the appropriate places. This increases the error tolerance when deploying the application. The next step is to load the dependencies needed for the image from the requirements.txt file and install them in the image. To do this, the requirements file is copied to the image and the python interpreter or the pip tool is started locally. Finally, the link between the local Django directory and the directory in the image is created.
+
+```
+FROM python:3.9
+ENV PYTHONUNBUFFERED 1
+
+# Prerequisites for python-ldap
+RUN apt update && apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev php
+
+# Create working directory
+RUN mkdir /home/site_project
+
+# Specify working directory
+WORKDIR /home/site_project
+
+# Copy the requirements file to the working directory
+ADD ./requirements.txt /home/site_project
+
+# Install all the python packages inside the requirements file
+RUN pip install --no-cache-dir -r /home/site_project/requirements.txt
+
+# Copy the Django site to the working directory
+ADD ./site_project /home/site_project
+```
