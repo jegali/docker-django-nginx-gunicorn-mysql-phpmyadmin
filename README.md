@@ -77,5 +77,6 @@ services:
             - database
 ```
 
+<br/><br/>
 ### The Web Server
 A nginx server is used as the web server. I also thought about using an Apache web server, but after some research I decided that nginx is the better option.
