@@ -134,3 +134,23 @@ The database is also available for download as a ready-made image in Docker Hub.
             MYSQL_PASSWORD: mallowz
 
 ```
+
+### The Django installation
+The Django installation is not based on any image. This is created via a Docker file itself and then mounted and started as part of the docker compose. This is what the build section in docker compose is for. The files are collected from the current directory "." and built to an image via the Dockerfile - also located in the current directory. The "command" section instructs Docker to run the command "gunicorn -b 0.0.0.0:8000 -w 4 site_project.wsgi" when the image is started, thus starting Django via gunicorn. Of course, django also needs some directories to work correctly, which are again mounted via volumes as usual. The service is passed out of the container on port 8000. Finally and finally, django needs access to the database. Therefore, of course, the "depends on" section can be found in the description. The functionality has already been described.
+
+```
+django:
+        build: 
+            context: .
+            dockerfile: Dockerfile
+        container_name: django_mallowz
+        command: gunicorn -b 0.0.0.0:8000 -w 4 site_project.wsgi
+        volumes:
+            - "./site_project:/home/site_project"
+            - "./site_project/media:/home/site_project/media"
+            - "./site_project/static:/home/site_project/static"
+        expose:
+            - 8000
+        depends_on:
+            - database
+```
