@@ -196,3 +196,36 @@ gunicorn>=19.9.0
 django-mysql==3.9
 mysqlclient>=2.0
 ```
+
+## The nginx configuration
+I also faced some challenges with nginx. For example, I had to figure out that a config file needs to be created in the first place. However, after I had implemented the basic configuration of the web server correctly, the Django installation would not start. After some experimentation, I came up with this solution:
+
+```
+# Nginx configuration
+
+upstream django {
+	server django:8000;
+}
+
+server {
+
+    listen 8000;
+    server_name django;
+
+    location /static/ {
+        expires 30d;
+        autoindex on;
+        add_header Cache-Control private;
+        root /home/site_project;
+    }
+    location / {
+        proxy_pass http://django/;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_redirect off;
+    }
+    
+}
+```
+
+The file is - as specified in the dockercompose file - to be saved in the directory "etc/nginx/default.conf"
