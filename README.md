@@ -229,3 +229,11 @@ server {
 ```
 
 The file is - as specified in the dockercompose file - to be saved in the directory "etc/nginx/default.conf"
+
+# Project installation and configuration
+
+1. Please make sure you have python and django installed
+2. Open up command prompt
+3. Create a new project folder and cd into it
+4. Create etc/nginx folder and place default.conf inside it
+5. Create a new django project with "django-admin startproject site-project"
