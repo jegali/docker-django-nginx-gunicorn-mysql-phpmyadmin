@@ -114,3 +114,24 @@ phpmyadmin:
         depends_on:
             - database
 ```
+<br/><br/>
+
+### The mySQL / mariaDB database
+The database is also available for download as a ready-made image in Docker Hub. Similar to the web server, a volume was also released here - all mySQL configurations and database files are stored on the local computer and included in the image. The access data for the database must be stored in the environment variables. In this case, too, these are available in plain text and are thus to be classified as a security vulnerability. A better way is to either set sensitive information as environment variables in advance or to use secrects. 
+
+```
+    database:
+        image: mysql:5.7.22
+        container_name: mysql_mallowz
+        restart: always
+        ports:
+            - 7071:3306
+        volumes:
+            - ./data/db/mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: mallowz
+            MYSQL_USER: mallowz
+            MYSQL_PASSWORD: mallowz
+
+```
