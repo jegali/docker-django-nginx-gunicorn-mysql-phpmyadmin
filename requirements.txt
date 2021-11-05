@@ -1,0 +1,6 @@
+django>=3.0.7
+pytz==2021.1
+sqlparse==0.4.1
+gunicorn>=19.9.0
+django-mysql==3.9
+mysqlclient>=2.0
