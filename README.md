@@ -155,7 +155,7 @@ django:
             - database
 ```
 
-### The Dockerfile for Django
+## The Dockerfile for Django
 Of course, we'll take a look at the Dockerfile as well. The content is docker typical. First, a base image is loaded from Dockerhub based on the python:3.9 image. Within this image, some updates and basic installation are done before the working directory of the Django project is mounted. Note: At this point, the working directory should be set via an environment variable and queried in the appropriate places. This increases the error tolerance when deploying the application. The next step is to load the dependencies needed for the image from the requirements.txt file and install them in the image. To do this, the requirements file is copied to the image and the python interpreter or the pip tool is started locally. Finally, the link between the local Django directory and the directory in the image is created.
 
 ```
