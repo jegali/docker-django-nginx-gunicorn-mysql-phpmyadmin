@@ -236,4 +236,29 @@ The file is - as specified in the dockercompose file - to be saved in the direct
 2. Open up command prompt
 3. Create a new project folder and cd into it
 4. Create etc/nginx folder and place default.conf inside it
-5. Create a new django project with "django-admin startproject site-project"
+5. Create a new django project with "django-admin startproject site_project ."
+6. Edit site_project/site_project/settings.py and exchange
+
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
+    }
+}
+```
+with
+
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'mallowz',			# mysql database from docker-compose
+        'USER': 'root',				# user from docker-compose
+        'PASSWORD': 'root',			# password from docker-compose
+        'HOST': 'database', 			# name of service from docker-compose
+        'PORT': '3306',				# internal port from service in docker-compose
+    }
+}
+```
+
