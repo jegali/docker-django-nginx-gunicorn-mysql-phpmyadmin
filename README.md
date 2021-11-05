@@ -5,7 +5,7 @@ In this repository you will find a description how to dockerize django, gunicorn
 <br/><br/>
 
 ## Intended use
-This Docker image is to be used for a vulnerable web store that is built in Python. Until that happens, the repository will serve as a think tank so I don't forget over time how to set up this project.
+This Docker image is to be used for m< vulnerable web store called "mallow" zthat is built in Python. Until that happens, the repository will serve as a think tank so I don't forget over time how to set up this project.
 <br/><br/>
 
 ## Structure
@@ -79,4 +79,20 @@ services:
 
 <br/><br/>
 ### The Web Server
-A nginx server is used as the web server. I also thought about using an Apache web server, but after some research I decided that nginx is the better option.
+A nginx server is used as the web server. I also thought about using an Apache web server, but after some research I decided that nginx is the better option. The nginx:aplpine image from Docker Hub is used. I give it the name "webserver_mallowz" so that I can find the corresponding container in Docker later. The Django/Gunicorn installation runs on port 8000, this port is forwarded to the outside via port 7072 - so the webserver can be reached under localhost:7072. The next section in the configuration deals with the sharing or mounting of some directories of the Django installation, which should be able to be used and reached by the web server. I went the way of including directories on the local machine into the image. This allows me - at least during development - to store files locally and still be able to access them via the web server without having to copy files in a complicated way. The depends section indicates that the web server should wait for the Django installation. Thus, it specifies the order in which the individual containers must be started. This makes sense, because if Django is not yet started, but the web server already wants to access Django directories, this can lead to unsightly errors. Here again the section from the compose file for the web server installation. 
+
+```
+    web:
+        image: nginx:alpine
+        container_name: webserver_mallowz
+        restart: always
+        ports:
+            - 7072:8000
+        volumes:
+            - "./etc/nginx/default.conf:/etc/nginx/conf.d/default.conf"
+            - "./site_project/media:/home/site_project/media"
+            - "./site_project/static:/home/site_project/static"
+        depends_on:
+            - django
+```
+
