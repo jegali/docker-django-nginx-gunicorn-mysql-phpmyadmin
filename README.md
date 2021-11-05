@@ -180,3 +180,6 @@ RUN pip install --no-cache-dir -r /home/site_project/requirements.txt
 # Copy the Django site to the working directory
 ADD ./site_project /home/site_project
 ```
+
+### Obstacles
+Obstacles in the development of the Django image was that even when calling "docker-compose down --volumes" and then rebuilding the image via "docker-compose up -d", changed requirements regarding the versioning of the components were not implemented. I had to change the Django version several times because the connection to the mySQL database and the necessary "migrate" command did not work without errors. But even after changing the Django version the error remained and could only be solved by removing the image permanently from my Docker repository via "docker rmi django_mallowz".
