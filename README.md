@@ -262,3 +262,7 @@ DATABASES = {
 }
 ```
 
+7. From inside the "site_project" directory do a "python manage.py migrate" to set up the database.
+8. From inside the "site_project" directory do a "django-admin collectstatic" to collect the css and other static files.
+9. Execute a "docker-compose up -d"
+10. Open up the browser and navigate to "localhost:7072". You should see the django rocket.
